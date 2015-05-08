@@ -4,11 +4,15 @@ if (location.protocol === 'chrome-devtools:') (function() {
 	
 	function proccess_console_add(element) {
 		var tag = false;
+
+		/* Sanity check */
+		if(typeof element.querySelector != 'function')
+			return;
 		
 		if(element.querySelector('.console-message.console-error-level'))
 			tag = 'Error';
 		
-		if(element.className == 'console-message-wrapper') {
+		if(element.className == 'console-message-wrapper' && element.querySelector('.console-message-text.source-code span')) {
 			var str = element.querySelector('.console-message-text.source-code span').innerText;
 			var re = /^\[(.*)\]/; 
 			var match;
@@ -22,7 +26,10 @@ if (location.protocol === 'chrome-devtools:') (function() {
 				tag = match[1];
 		}
 		
-		tag = tag ? tag : 'Other';
+		if(!tag && element.className == 'console-message-wrapper') {
+			tag = tag ? tag : 'Other';
+		} else if(!tag)
+			return;
 		
 		element.setAttribute('data-tag', tag);
 		element.style.display = tags[tag] ? 'initial' : 'none';
@@ -36,7 +43,6 @@ if (location.protocol === 'chrome-devtools:') (function() {
 		tag = tag.replace(/(<([^>]+)>)/ig,"");
 		
 		/* Add tag to list of tags */
-		console.log('indexof');
 		if(!tags.hasOwnProperty(tag)) {
 			var html = '';
 			if(tag == 'Error' || tag == 'Other')
