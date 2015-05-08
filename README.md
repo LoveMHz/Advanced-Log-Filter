@@ -1,5 +1,7 @@
 # Chrome Extension - Advanced Log Filter
 
+![](https://github.com/LoveMHz/Advanced-Log-Filter/blob/master/preview.png)
+
 Chrome Extension - Advanced Log Filter was written to add simple filtering options to the Chrome Devtool's console. It works based off console.log() calls that begin with a 'tag name' inside of two brackets, such as console.log('[UI_SYSTEM] Something went wrong!');
 
 ## Installation
